@@ -1,10 +1,10 @@
 function addRow() {
   // Get input values
   const name = document.getElementById("name").value;
-  const points = document.getElementById("points").value;
-  const volume = document.getElementById("volume").value;
-  const addons = document.getElementById("addons").value;
-  const units = document.getElementById("units").value;
+  const points = parseInt(document.getElementById("points").value) || 0;
+  const volume = parseInt(document.getElementById("volume").value) || 0;
+  const addons = parseInt(document.getElementById("addons").value) || 0;
+  const units = parseInt(document.getElementById("units").value) || 0;
 
   // Create a new row and cells
   const table = document.getElementById("table");
@@ -14,13 +14,6 @@ function addRow() {
   const volumeCell = row.insertCell(2);
   const addonsCell = row.insertCell(3);
   const unitsCell = row.insertCell(4);
-
-  // Add input values to cells
-  nameCell.innerHTML = name;
-  pointsCell.innerHTML = points;
-  volumeCell.innerHTML = volume;
-  addonsCell.innerHTML = addons;
-  unitsCell.innerHTML = units;
 
   // create an object with the input values
   const inputObj = {
@@ -43,7 +36,10 @@ function addRow() {
     const existingIndex = existingData.findIndex(data => data.name === name);
     if (existingIndex !== -1) {
       // if name already exists, update the input object
-      existingData[existingIndex] = inputObj;
+      existingData[existingIndex].points += points;
+      existingData[existingIndex].volume += volume;
+      existingData[existingIndex].addons += addons;
+      existingData[existingIndex].units += units;
     } else {
       // if name doesn't exist, add the input object to the existing data array
       existingData.push(inputObj);
@@ -52,6 +48,13 @@ function addRow() {
 
   // save the updated data to local storage
   localStorage.setItem('RYOBI', JSON.stringify(existingData));
+
+  // Add input values to cells
+  nameCell.innerHTML = name;
+  pointsCell.innerHTML = points;
+  volumeCell.innerHTML = volume;
+  addonsCell.innerHTML = addons;
+  unitsCell.innerHTML = units;
 
   // clear the input values
   document.getElementById("name").value = "";
@@ -63,7 +66,7 @@ function addRow() {
   function displayData() {
     // get the saved data from local storage
     const savedData = JSON.parse(localStorage.getItem('RYOBI'));
-  
+
     // if there is no saved data, return
     if (!savedData) return;
 
@@ -73,10 +76,10 @@ function addRow() {
         table.deleteRow(-1);
       }
     }
-  
+
     // clear the table first
     clearTable();
-  
+
     // loop through the saved data and create table rows
     savedData.forEach((data, index) => {
       const newRow = document.createElement('tr');
@@ -90,11 +93,11 @@ function addRow() {
       document.getElementById('table').appendChild(newRow);
     });
   }
-  
 
   // update the table
   displayData();
 }
+
 
 
 // function addRow() {

@@ -38,7 +38,7 @@ input {
     max-height: fit-content;
 }
 
-#clear-btn {
+button {
     border-width: 2px;
     border-color: white;
     margin-top: 4px;
