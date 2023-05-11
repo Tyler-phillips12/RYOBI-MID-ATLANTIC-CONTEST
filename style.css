@@ -1,19 +1,9 @@
 h1 {
     color:limegreen;
     border-bottom: solid 3px;
-    border-bottom-color: White;
+    border-bottom-color: limegreen;
     max-width: fit-content;
-
-}
-button {
-    border: solid;
     border-width: 2px;
-    border-color: white;
-    margin-top: 4px;
-    background-color: limegreen;
-    max-width: fit-content;
-    height: 30px;
-    text-align: center;
 
 }
 
@@ -21,26 +11,53 @@ body {
     background-color: black;
 }
 
+th {
+    padding: 5px;
+    border: inset 3px limegreen;
+    border-width: 5px;
+}
+
+td {
+    border: solid 3px limegreen;
+    text-align: center;
+    padding: 5px;
+}
+
+table#table {
+    border: inset 3px black;
+    border-radius: 25px;
+}
+
+label {
+    font-size: 18px;
+    font-weight: 800;
+}
+
+input {
+    max-width: fit-content;
+    max-height: fit-content;
+}
+
+input {
+    border-width: 2px;
+    border-color: white;
+    margin-top: 4px;
+    background-color: limegreen;
+    max-width: fit-content;
+    height: 30px;
+    text-align: center;  
+    font-size: 14px;
+
+}
+
 tr {
     color:limegreen;
     font-size: 22px;
 }
 
-div#local-storage {
-    color: limegreen;
-    padding: 10px;
-}
 
 input {
     max-width: 100px;
-}
-p {
-    color: limegreen;
-}
-
-li {
-    color: limegreen;
-    line-height: 30px;
 }
 
 label {
