@@ -1,4 +1,3 @@
-
 // Get all input elements on the page
 // JavaScript code
 // const saveButton = document.getElementById('submit1');
@@ -16,75 +15,171 @@
 // });
 
 // JavaScript code
-let usersData = {};
 
-function saveMessage() {
-    const usernameInput = document.getElementById('usernameInput');
-    const totalPointsInput = document.getElementById('total-points');
-    const totalVolumeInput = document.getElementById('total-volume');
-    const totalAddOnsInput = document.getElementById('total-add-ons');
-    const totalUnitsInput = document.getElementById('total-units');
-    const username = usernameInput.value;
-    const totalPoints = totalPointsInput.value;
-    const totalVolume = totalVolumeInput.value;
-    const totalAddOns = totalAddOnsInput.value;
-    const totalUnits = totalUnitsInput.value;
-  
-    // If the user is not already in the usersData object, add them
-    if (!usersData.hasOwnProperty(username)) {
-      usersData[username] = [];
-    }
-  
-    // Add the data to the user's data
-    usersData[username].push({
-      totalPoints: totalPoints,
-      totalVolume: totalVolume,
-      totalAddOns: totalAddOns,
-      totalUnits: totalUnits
-    });
-  
-    // Clear the input fields
-    usernameInput.value = '';
-    totalPointsInput.value = '';
-    totalVolumeInput.value = '';
-    totalAddOnsInput.value = '';
-    totalUnitsInput.value = '';
+function addRow() {
+  // Get input values
+  const name = document.getElementById("name").value;
+  const points = document.getElementById("points").value;
+  const volume = document.getElementById("volume").value;
+  const addons = document.getElementById("addons").value;
+  const units = document.getElementById("units").value;
+
+  // Create a new row and cells
+  const table = document.getElementById("table");
+  const row = table.insertRow(-1);
+  const nameCell = row.insertCell(0);
+  const pointsCell = row.insertCell(1);
+  const volumeCell = row.insertCell(2);
+  const addonsCell = row.insertCell(3);
+  const unitsCell = row.insertCell(4);
+
+  // Add input values to cells
+  nameCell.innerHTML = name;
+  pointsCell.innerHTML = points;
+  volumeCell.innerHTML = volume;
+  addonsCell.innerHTML = addons;
+  unitsCell.innerHTML = units;
+}
+
+// select the submit button
+const submitBtns = document.querySelectorAll('#button');
+
+// add event listener to each submit button
+submitBtns.forEach(btn => {
+btn.addEventListener('click', () => {
+  // get the input values
+  const name = btn.parentNode.parentNode.querySelector('th').textContent;
+  const points = document.getElementById(`RYOBI_${name} POINTS--`).value;
+  const volume = document.getElementById(`RYOBI_${name} VOLUME--`).value;
+  const addons = document.getElementById(`RYOBI_${name} ADD ONS--`).value;
+  const units = document.getElementById(`RYOBI_${name} UNITS--`).value;
+
+  // create an object with the input values
+  const inputObj = {
+    points,
+    volume,
+    addons,
+    units
+  };
+
+  // get the existing data from local storage
+  let existingData = JSON.parse(localStorage.getItem('RYOBI'));
+
+  // if there is no existing data, create a new array and add the input object
+  if (!existingData) {
+    existingData = [];
+    existingData.push(inputObj);
+  } else {
+    // add the input object to the existing data array
+    existingData.push(inputObj);
   }
 
-  function displayResults() {
-    const resultsTable = document.getElementById('resultsTable');
-    const tbody = resultsTable.querySelector('tbody');
-    tbody.innerHTML = '';
-  
-    // Iterate over each user in the usersData object
-    for (const username in usersData) {
-      if (usersData.hasOwnProperty(username)) {
-        const userData = usersData[username];
-        // Iterate over each message for the current user and add it to the results table
-        userData.forEach((data) => {
-          const row = document.createElement('tr');
-          const usernameCell = document.createElement('td');
-          usernameCell.textContent = username;
-          const totalPointsCell = document.createElement('td');
-          totalPointsCell.textContent = data.totalPoints;
-          const totalVolumeCell = document.createElement('td');
-          totalVolumeCell.textContent = data.totalVolume;
-          const totalAddOnsCell = document.createElement('td');
-          totalAddOnsCell.textContent = data.totalAddOns;
-          const totalUnitsCell = document.createElement('td');
-          totalUnitsCell.textContent = data.totalUnits;
-          row.appendChild(usernameCell);
-          row.appendChild(totalPointsCell);
-          row.appendChild(totalVolumeCell);
-          row.appendChild(totalAddOnsCell);
-          row.appendChild(totalUnitsCell);
-          tbody.appendChild(row);
-        });
-      }
-    }
-  }
-  
-  
+  // save the updated data to local storage
+  localStorage.setItem('RYOBI', JSON.stringify(existingData));
+
+  // clear the input values
+  document.getElementById(`RYOBI_${name} POINTS--`).value = '';
+  document.getElementById(`RYOBI_${name} VOLUME--`).value = '';
+  document.getElementById(`RYOBI_${name} ADD ONS--`).value = '';
+  document.getElementById(`RYOBI_${name} UNITS--`).value = '';
+});
+});
+
+// display the saved data on the page
+function displayData() {
+// get the saved data from local storage
+const savedData = JSON.parse(localStorage.getItem('RYOBI'));
+
+// if there is no saved data, return
+if (!savedData) return;
+
+// loop through the saved data and create table rows
+savedData.forEach((data, index) => {
+  const newRow = document.createElement('tr');
+  newRow.innerHTML = `
+    <th scope="row">${index + 1}</th>
+    <td>${data.points}</td>
+    <td>${data.volume}</td>
+    <td>${data.addons}</td>
+    <td>${data.units}</td>
+  `;
+  document.getElementById('table').appendChild(newRow);
+});
+}
+
+// call the displayData function to display the saved data on page load
+displayData();
+
+
+// let usersData = {};
+
+// function saveMessage() {
+//     const usernameInput = document.getElementById('usernameInput');
+//     const totalPointsInput = document.getElementById('total-points');
+//     const totalVolumeInput = document.getElementById('total-volume');
+//     const totalAddOnsInput = document.getElementById('total-add-ons');
+//     const totalUnitsInput = document.getElementById('total-units');
+//     const username = usernameInput.value;
+//     const totalPoints = totalPointsInput.value;
+//     const totalVolume = totalVolumeInput.value;
+//     const totalAddOns = totalAddOnsInput.value;
+//     const totalUnits = totalUnitsInput.value;
+
+//     // If the user is not already in the usersData object, add them
+//     if (!usersData.hasOwnProperty(username)) {
+//       usersData[username] = [];
+//     }
+
+//     // Add the data to the user's data
+//     usersData[username].push({
+//       totalPoints: totalPoints,
+//       totalVolume: totalVolume,
+//       totalAddOns: totalAddOns,
+//       totalUnits: totalUnits
+//     });
+
+//     // Clear the input fields
+//     usernameInput.value = '';
+//     totalPointsInput.value = '';
+//     totalVolumeInput.value = '';
+//     totalAddOnsInput.value = '';
+//     totalUnitsInput.value = '';
+//   }
+
+//   function displayResults() {
+//     const resultsTable = document.getElementById('resultsTable');
+//     const tbody = resultsTable.querySelector('tbody');
+//     tbody.innerHTML = '';
+
+//     // Iterate over each user in the usersData object
+//     for (const username in usersData) {
+//       if (usersData.hasOwnProperty(username)) {
+//         const userData = usersData[username];
+//         // Iterate over each message for the current user and add it to the results table
+//         userData.forEach((data) => {
+//           const row = document.createElement('tr');
+//           const usernameCell = document.createElement('td');
+//           usernameCell.textContent = username;
+//           const totalPointsCell = document.createElement('td');
+//           totalPointsCell.textContent = data.totalPoints;
+//           const totalVolumeCell = document.createElement('td');
+//           totalVolumeCell.textContent = data.totalVolume;
+//           const totalAddOnsCell = document.createElement('td');
+//           totalAddOnsCell.textContent = data.totalAddOns;
+//           const totalUnitsCell = document.createElement('td');
+//           totalUnitsCell.textContent = data.totalUnits;
+//           row.appendChild(usernameCell);
+//           row.appendChild(totalPointsCell);
+//           row.appendChild(totalVolumeCell);
+//           row.appendChild(totalAddOnsCell);
+//           row.appendChild(totalUnitsCell);
+//           tbody.appendChild(row);
+//         });
+//       }
+//     }
+//   }
+
+
 
 // function displayResults() {
 //   const resultsTable = document.getElementById('resultsTable');
@@ -141,12 +236,12 @@ function saveMessage() {
 //     usernameInput.value = '';
 //     messageInput.value = '';
 //   }
-  
+
 //   function displayResults() {
 //     const resultsTable = document.getElementById('resultsTable');
 //     const tbody = resultsTable.querySelector('tbody');
 //     tbody.innerHTML = '';
-  
+
 //     // Loop through all items in localStorage and add the ones for the current user to the results table
 //     const username = document.getElementById('usernameInput').value;
 //     for (let i = 0; i < localStorage.length; i++) {
@@ -164,7 +259,7 @@ function saveMessage() {
 //       }
 //     }
 //   }
-  
+
 
 
 
@@ -174,7 +269,7 @@ function saveMessage() {
 //     const totalVolumeInput = document.getElementById('total-volume-m');
 //     const totalAddOnInput = document.getElementById('total-add-ons-m');
 //     const totalUnitsInput = document.getElementById('total-units-sold-m')
-    
+  
 //     buttons.forEach(button => {
 //       button.addEventListener('click', () => {
 //         const totalPointsM = totalPointsInput.value;
@@ -196,7 +291,7 @@ function saveMessage() {
 //     const totalVolumeInputC = document.getElementById('total-volume-c');
 //     const totalAddOnInputC = document.getElementById('total-add-ons-c');
 //     const totalUnitsInputC = document.getElementById('total-units-sold-c');
-    
+  
 //     buttons.forEach(button => {
 //         button.addEventListener('click', () => {
 //             const totalPointsC = totalPointsInputC.value;
@@ -213,8 +308,8 @@ function saveMessage() {
 // }
 
 
-  
-  
+
+
 //   logOnClick();
 
 //   function displayLocalStorageData() {
@@ -253,7 +348,7 @@ function saveMessage() {
 //     `;
 //     localStorageDataDiv.innerHTML = localStorageData;
 //   }
-  
+
 //   displayLocalStorageData();
 
 //   function logOnClick() {
@@ -262,7 +357,7 @@ function saveMessage() {
 //     const totalVolumeInputC = document.getElementById('total-volume-c');
 //     const totalAddOnInputC = document.getElementById('total-add-ons-c');
 //     const totalUnitsInputC = document.getElementById('total-units-sold-c')
-    
+  
 //     buttons.forEach(button => {
 //         const localStorageDataDiv = document.getElementById('local-storage');
 //         const totalPointsC = localStorage.getItem('totalPointsC');
@@ -293,7 +388,7 @@ function saveMessage() {
 
 //   function displayLocalStorageData() {
 //   }
-  
+
 //   displayLocalStorageData();
 
 // const inputs = document.querySelectorAll('input');
@@ -311,11 +406,11 @@ function saveMessage() {
 //     const volumeM = parseFloat(document.getElementById('total-volume-m').value);
 //     const addonsM = parseFloat(document.getElementById('total-add-ons-m').value);
 //     const unitsSoldM = parseInt(document.getElementById('total-units-sold-m').value);
-  
+
 //     // Calculate points and revenue
 //     const points = pointsM + volumeM + addonsM + unitsSoldM;
 //     const revenue = unitsSoldM * 400;
-  
+
 //     // Display results
 //     document.getElementById('points-m').textContent = points;
 //     document.getElementById('revenue-m').textContent = revenue;
@@ -324,4 +419,3 @@ function saveMessage() {
 //   document.getElementById('submit1').addEventListener('click', function() {
 //     calculate();
 //   });
-  
