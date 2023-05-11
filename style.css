@@ -38,6 +38,18 @@ input {
     max-height: fit-content;
 }
 
+#clear-btn {
+    border-width: 2px;
+    border-color: white;
+    margin-top: 4px;
+    background-color: limegreen;
+    max-width: fit-content;
+    height: 30px;
+    text-align: center;  
+    font-size: 14px;
+
+}
+
 input {
     border-width: 2px;
     border-color: white;
