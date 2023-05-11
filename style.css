@@ -1,0 +1,48 @@
+h1 {
+    color:limegreen;
+    border-bottom: solid 3px;
+    border-bottom-color: White;
+    max-width: fit-content;
+
+}
+button {
+    border: solid;
+    border-width: 2px;
+    border-color: white;
+    margin-top: 4px;
+    background-color: limegreen;
+    max-width: fit-content;
+    height: 30px;
+    text-align: center;
+
+}
+
+body {
+    background-color: black;
+}
+
+tr {
+    color:limegreen;
+    font-size: 22px;
+}
+
+div#local-storage {
+    color: limegreen;
+    padding: 10px;
+}
+
+input {
+    max-width: 100px;
+}
+p {
+    color: limegreen;
+}
+
+li {
+    color: limegreen;
+    line-height: 30px;
+}
+
+label {
+    color: limegreen;
+}
